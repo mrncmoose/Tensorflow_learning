@@ -1,4 +1,4 @@
-#Tensor Flow Learning
+# Tensor Flow Learning
 
 There are many Jupyter books provided by Tensor Flow for education.  However, they all have major problem:  One does not learn much by clicking a button to run someone else's work.
 
