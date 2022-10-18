@@ -10,4 +10,7 @@ mkdir -p models/flower_model/
 python3 -m venv .venv
 source .venv/bin/activate
 pip install --upgrade pip
+# Installing numpy on an M1/M2 Mac??
+
+
 pip install -r requirements.txt
