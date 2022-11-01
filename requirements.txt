@@ -1,6 +1,7 @@
 numpy==1.23.4
 # tensorflow
 tensorflow-macos
+tensorflow_hub
 Pillow
 matplotlib
 pyyaml 

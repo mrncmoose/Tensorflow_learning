@@ -8,3 +8,7 @@ The code here is an augment to the Jupyter noteboooks.  Much of the code is the 
 1. Clone this repository
 1. Run setup.sh
 1. Start running Tensor Flow code to learn how it works.
+
+## Note
+
+On MacOS and M2 processors, unless there is a way to get xcode command line tools inside a python VM, you will need to run this w/o a python virtual environment.

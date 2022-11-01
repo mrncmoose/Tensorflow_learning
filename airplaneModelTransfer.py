@@ -1,6 +1,6 @@
 '''
-Code to perform model transferance.
-Dec 10, 2020
+Code to perform model transferance for airplane images.
+Oct 17, 2022
 '''
 import tensorflow as tf
 import numpy as np
@@ -10,15 +10,17 @@ from tensorflow.keras import layers
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 
-image_dir='data_sets/cats_and_dogs_images'
-model_dir='models/cats_and_dogs_model'
-img_zip_file='cats_and_dogs_filtered.zip'
+image_dir='data_sets/airplane_car_ship'
+model_dir='models/airplane_car_ship_model'
 
-train_dir = image_dir + '/cats_and_dogs_filtered/train'
-validation_dir = image_dir + '/cats_and_dogs_filtered/validation'
+train_dir = image_dir + '/train'
+validation_dir = image_dir + '/test'
 
 BATCH_SIZE = 32
-IMG_SIZE = (160, 160)
+img_height = 224
+img_width = 224
+validationSplit = 0.25
+IMG_SIZE=(img_height, img_width)
 
 train_dataset = image_dataset_from_directory(train_dir,
                                              shuffle=True,
@@ -76,13 +78,23 @@ prediction_batch = prediction_layer(feature_batch_average)
 print(prediction_batch.shape)
 
 # define data augmentation as:
-data_augmentation = tf.keras.Sequential([
-  layers.RandomFlip("horizontal_and_vertical"),
-  layers.RandomRotation(0.2),
-])
+# data_augmentation = tf.keras.Sequential([
+#   layers.RandomFlip("horizontal_and_vertical"),
+#   layers.RandomRotation(0.2),
+# ])
+data_augmentation = keras.Sequential(
+  [
+    layers.experimental.preprocessing.RandomFlip("horizontal", 
+                                                 input_shape=(img_height, 
+                                                              img_width,
+                                                              3)),
+    layers.experimental.preprocessing.RandomRotation(0.1),
+    layers.experimental.preprocessing.RandomZoom(0.1),
+  ]
+)
 
 #buld and rescale the model
-inputs = tf.keras.Input(shape=(160, 160, 3))
+inputs = tf.keras.Input(shape=(img_height, img_width, 3))
 x = data_augmentation(inputs)
 x = preprocess_input(x)
 x = base_model(x, training=False)
@@ -98,7 +110,8 @@ model.compile(optimizer=tf.keras.optimizers.Adam(lr=base_learning_rate),
               metrics=['accuracy'])
 
 #Train the model
-initial_epochs = 10
+# initial_epochs = 10
+initial_epochs = 12
 loss0, accuracy0 = model.evaluate(validation_dataset)
 
 print("initial loss: {:.2f}".format(loss0))
@@ -107,3 +120,7 @@ print("initial accuracy: {:.2f}".format(accuracy0))
 history = model.fit(train_dataset,
                     epochs=initial_epochs,
                     validation_data=validation_dataset)
+# check for overtraining ??  does the loss and accuracy start to fall off?
+print('Model re-trained.')
+print('Saving model')
+model.save('models/airplane_car_ship_model')
