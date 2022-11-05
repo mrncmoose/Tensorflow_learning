@@ -1,0 +1,8 @@
+numpy==1.21.6
+tensorflow
+tensorflow_hub
+Pillow
+matplotlib
+pyyaml 
+h5py
+imageio

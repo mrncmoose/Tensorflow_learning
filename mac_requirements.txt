@@ -1,6 +1,5 @@
-# requirements for running under a real OS.
 numpy==1.23.4
-tensorflow
+tensorflow-macos
 tensorflow_hub
 Pillow
 matplotlib

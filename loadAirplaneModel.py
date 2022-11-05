@@ -13,17 +13,17 @@ import glob
 batch_size = 32
 img_height = 224
 img_width = 224
+img_depth = 3
 imageDir = 'cameraImages'
 canidateDir = imageDir + '/airplaneCanidates/'
 threshold = 0.95
 
 mobilenet_v2 = 'https://tfhub.dev/google/object_detection/mobile_object_labeler_v1/1' # need to figure out the input shape and what the error messages really mean.
 # mobilenet_v2 = 'https://tfhub.dev/google/tf2-preview/mobilenet_v2/classification/4' # not very consistant
-module = hub.Module(mobilenet_v2)
-IMAGE_SHAPE = (224, 224)
-mobileNetShape = hub.get_expected_image_size(module)
+IMAGE_SHAPE = (img_height, img_width, img_depth)
+# mobileNetShape = hub.get_expected_image_size(module)
 classifier = tf.keras.Sequential([
-    hub.KerasLayer(mobilenet_v2, input_shape=mobileNetShape)
+    hub.KerasLayer(mobilenet_v2, input_shape=IMAGE_SHAPE)
 ])
 
 labels_path = tf.keras.utils.get_file('ImageNetLabels.txt','https://storage.googleapis.com/download.tensorflow.org/data/ImageNetLabels.txt')
@@ -37,8 +37,8 @@ for imageFile in imageFiles:
         result = classifier.predict(img_expended_dim)
         predicted_class = tf.math.argmax(result[0], axis=-1)
         predicted_class_name = imagenet_labels[predicted_class]
-        if predicted_class_name == 'Space Shuttle' or predicted_class_name == 'Airliner':
-            print('Image {} predition is {}'.format(imageFile, predicted_class_name.title()))
+        # if predicted_class_name == 'Space Shuttle' or predicted_class_name == 'Airliner':
+        print('Image {} predition is {}'.format(imageFile, predicted_class_name.title()))
         
         # if np.max(score) >= threshold and labels_path[np.argmax(score)] == 'airplanes':
         #     os.rename(imageDir + '/' + imageFile, canidateDir + imageFile)
