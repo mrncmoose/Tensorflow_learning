@@ -7,6 +7,8 @@ import PIL.Image as Image
 import glob
 from pathlib import Path
 
+#TODO:  What does mobile net think image 5MTC0147.JPG is?'
+
 imageDir = 'cameraImages'
 canidateDir = imageDir + '/airplaneCanidates/'
 canidateLabels = ['white_stork', 'warplane', 'space_shuttle', 'wing', 'airliner']
@@ -31,8 +33,3 @@ for imageFile in imageFiles:
         
     except Exception as e:
         print('Unable to process file {} for reason {}'.format(imageFile, e))
-        exit()
-
-
-    
-    
