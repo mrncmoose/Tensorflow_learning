@@ -5,3 +5,4 @@ Pillow
 matplotlib
 pyyaml 
 h5py
+imageio
