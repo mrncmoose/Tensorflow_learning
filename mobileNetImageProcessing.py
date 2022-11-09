@@ -16,6 +16,7 @@ img_height = 224
 img_width = 224
 model = MobileNetV2(weights='imagenet')
 imageFiles = glob.glob(imageDir + '/*.JPG')
+planeImgCount = 0
 for imageFile in imageFiles:
     try:
         data = np.empty((1, 224, 224, 3))
@@ -26,10 +27,13 @@ for imageFile in imageFiles:
         predictions = model.predict(data)
         output_neuron = np.argmax(predictions[0])
         for name, desc, score in decode_predictions(predictions)[0]:
-            if desc in canidateLabels and score > 0.1:
+            if desc in canidateLabels and score > 0.044:
+                planeImgCount += 1
                 Path(imageFile).rename(canidateDir + imageFile)
                 print('Image - {} has a prediction of {} with {:.2f}%% accuracy'.format(imageFile, desc, 100 * score))
                 break
         
     except Exception as e:
         print('Unable to process file {} for reason {}'.format(imageFile, e))
+
+print('Found {} airplane images'.format(planeImgCount))
