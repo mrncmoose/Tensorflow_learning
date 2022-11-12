@@ -11,12 +11,15 @@ from pathlib import Path
 
 imageDir = 'cameraImages'
 canidateDir = imageDir + '/airplaneCanidates/'
+carCanidateDir = imageDir + '/carCanidates/'
 canidateLabels = ['white_stork', 'warplane', 'space_shuttle', 'wing', 'airliner']
+carLabels = ['minivan', 'jeep']
 img_height = 224
 img_width = 224
 model = MobileNetV2(weights='imagenet')
 imageFiles = glob.glob(imageDir + '/*.JPG')
 planeImgCount = 0
+carImgCount = 0
 for imageFile in imageFiles:
     try:
         data = np.empty((1, 224, 224, 3))
@@ -32,8 +35,13 @@ for imageFile in imageFiles:
                 Path(imageFile).rename(canidateDir + imageFile)
                 print('Image - {} has a prediction of {} with {:.2f}%% accuracy'.format(imageFile, desc, 100 * score))
                 break
+            if desc in carLabels and score > 0.01:
+                carImgCount += 1
+                Path(imageFile).rename(carCanidateDir + imageFile)
+                print('Image - {} has a prediction of {} with {:.2f}%% accuracy'.format(imageFile, desc, 100 * score))
+                break
         
     except Exception as e:
         print('Unable to process file {} for reason {}'.format(imageFile, e))
 
-print('Found {} airplane images'.format(planeImgCount))
+print('Found {} airplane and {} car images'.format(planeImgCount, carImgCount))
