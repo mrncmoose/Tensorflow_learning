@@ -12,3 +12,5 @@ The code here is an augment to the Jupyter noteboooks.  Much of the code is the 
 ## Note
 
 On MacOS and M2 processors, unless there is a way to get xcode command line tools inside a python VM, you will need to run this w/o a python virtual environment.
+
+For airplane identification using mobilenet, run mobileNetImageProcessing.py
