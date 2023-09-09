@@ -10,6 +10,7 @@ import os
 import argparse
 
 #TODO: Add ability to attempt to 'read' tail number or licence plate.
+# do this on all images.  It may catch a few partial plane images.
 
 parser = argparse.ArgumentParser(description='AI image classifier for finding airplane images and cars.')
 parser.add_argument('--imageDir', 
@@ -29,27 +30,27 @@ parser.add_argument('--carDir',
 args = parser.parse_args()
 
 imageDir = args.imageDir
-canidateDir = args.baseDir + '/' + imageDir + '/' + args.airplaneCanidateDir + '/'
-carCanidateDir = args.baseDir + '/' + imageDir + '/' + args.carDir + '/'
+canidateDir = args.baseDir + '/' + args.airplaneCanidateDir + '/'
+carCanidateDir = args.baseDir + '/' + args.carDir + '/'
 
-if not Path.exists(imageDir):
+if not Path.exists(Path(imageDir)):
     print('Base image dir {} does not exisit.  Exiting'.format(imageDir))
     exit -1
     
-if not Path.exists(args.baseDir):
+if not Path.exists(Path(args.baseDir)):
     print('Base dir of {} does not exisit. Creating...'.format(args.baseDir))
     try:
-        Path.mkdir(args.baseDir)
+        Path.mkdir(Path(args.baseDir))
     except Exception as e:
         print('Unable to create base dir of {}'.format(args.baseDir))
         exit -1
-if not Path.exists(canidateDir):
+if not Path.exists(Path(canidateDir)):
     print('Airplane canidate dir {} missing.  Creating...'.format(canidateDir))
-    Path.mkdir(canidateDir)
+    Path.mkdir(Path(canidateDir))
 
-if not Path.exists(carCanidateDir):
+if not Path.exists(Path(carCanidateDir)):
     print('Car canidate dir {} missing.  Creating...'.format(carCanidateDir))
-    Path.mkdir(carCanidateDir)
+    Path.mkdir(Path(carCanidateDir))
     
 planeImageCount = len(os.listdir(canidateDir))
 carImageCount = len(os.listdir(carCanidateDir))
