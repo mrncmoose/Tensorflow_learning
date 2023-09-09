@@ -1,3 +1,4 @@
+argparse
 numpy==1.23.4
 tensorflow-macos
 tensorflow_hub
