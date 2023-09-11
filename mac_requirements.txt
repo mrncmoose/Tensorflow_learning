@@ -7,3 +7,5 @@ matplotlib
 pyyaml 
 h5py
 imageio
+pytesseract
+opencv-python
