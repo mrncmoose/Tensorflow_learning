@@ -80,12 +80,16 @@ for imageFile in imageFiles:
         for name, desc, score in decode_predictions(predictions)[0]:
             if desc in canidateLabels and score > 0.044:
                 planeImgCount += 1
-                Path(imageFile).rename(canidateDir + imageFile)
+                imagePath = Path(imageFile)
+                targetPath = Path(canidateDir + imagePath.name)
+                targetPath.write_bytes(imagePath.read_bytes())
                 print('Image - {} has a prediction of {} with {:.2f}%% accuracy'.format(imageFile, desc, 100 * score))
                 break
             if desc in carLabels and score > 0.01:
                 carImgCount += 1
-                Path(imageFile).rename(carCanidateDir + imageFile)
+                carPath = Path(imageFile)
+                targetPath = Path(carCanidateDir + carPath.name)
+                targetPath.write_bytes(carPath.read_bytes())
                 print('Image - {} has a prediction of {} with {:.2f}%% accuracy'.format(imageFile, desc, 100 * score))
                 break
         
