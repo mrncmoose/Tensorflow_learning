@@ -1,5 +1,5 @@
 /data_sets/
 /models/
 /592px-Red_sunflower.jpg
-/.venv/
+/.venv/**
 cameraImages/**
