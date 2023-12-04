@@ -8,8 +8,8 @@ rm flower_photos.tgz
 cd ../../
 mkdir -p models/flower_model/
 # does not work in a virtual environment due to xtool command line is unavailable inside the virtual environment.
-# python3 -m venv .venv
-# source .venv/bin/activate
+python3 -m venv .venv
+source .venv/bin/activate
 pip install --upgrade pip
 # Installing numpy on an M1/M2 Mac??
 
